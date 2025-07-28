@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>AI Coding Assistant</title>
+    <style>
+        body {
+            font-family: sans-serif;
+        }
+        #chat-container {
+            width: 500px;
+            margin: 0 auto;
+            border: 1px solid #ccc;
+            padding: 10px;
+        }
+        #chat-history {
+            height: 400px;
+            overflow-y: scroll;
+            border: 1px solid #eee;
+            padding: 10px;
+            margin-bottom: 10px;
+        }
+        #user-input {
+            width: 100%;
+            padding: 5px;
+        }
+    </style>
+</head>
+<body>
+    <div id="chat-container">
+        <h1>AI Coding Assistant</h1>
+        <div id="chat-history"></div>
+        <form id="chat-form">
+            <input type="text" id="user-input" placeholder="Enter your prompt...">
+        </form>
+    </div>
+
+    <script>
+        const chatForm = document.getElementById('chat-form');
+        const userInput = document.getElementById('user-input');
+        const chatHistory = document.getElementById('chat-history');
+
+        chatForm.addEventListener('submit', async (e) => {
+            e.preventDefault();
+            const prompt = userInput.value;
+            userInput.value = '';
+
+            // Add user message to chat history
+            const userMessage = document.createElement('p');
+            userMessage.textContent = `You: ${prompt}`;
+            chatHistory.appendChild(userMessage);
+
+            // Get response from AI assistant
+            const response = await fetch('/chat', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({ prompt })
+            });
+
+            const data = await response.json();
+
+            // Add AI response to chat history
+            const aiMessage = document.createElement('p');
+            aiMessage.textContent = `AI: ${data.response}`;
+            chatHistory.appendChild(aiMessage);
+
+            // Scroll to the bottom of the chat history
+            chatHistory.scrollTop = chatHistory.scrollHeight;
+        });
+    </script>
+</body>
+</html>
