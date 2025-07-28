@@ -2,13 +2,12 @@ import os
 import sys
 import openai
 
-def generate_code(prompt):
+def generate_code(prompt, api_key):
     """
     Generates code using the OpenAI API.
     """
-    api_key = os.getenv("OPENAI_API_KEY")
     if not api_key:
-        raise ValueError("Please set the OPENAI_API_KEY environment variable.")
+        raise ValueError("Please provide an OpenAI API key.")
 
     client = openai.OpenAI(api_key=api_key)
 
@@ -29,6 +28,6 @@ if __name__ == "__main__":
         print("Usage: python main.py \"<your prompt>\"")
     else:
         user_prompt = sys.argv[1]
-        generated_code = generate_code(user_prompt)
-        print("\nGenerated Code:\n")
-        print(generated_code)
+        # This part of the script will not work without an API key.
+        # The GUI is the recommended way to run the assistant.
+        print("Please use the GUI to run the assistant.")
